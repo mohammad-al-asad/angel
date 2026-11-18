@@ -29,6 +29,31 @@ function StatusBadge({ status }) {
   );
 }
 
+// eslint-disable-next-line react/prop-types
+function PersonCell({ user, fallbackColor }) {
+  // eslint-disable-next-line react/prop-types
+  const name = user?.name || "Unknown User";
+  // eslint-disable-next-line react/prop-types
+  const email = user?.email || "N/A";
+  return (
+    <div className="flex items-center gap-2 min-w-0">
+      <img
+        src={
+          // eslint-disable-next-line react/prop-types
+          getImageUrl(user?.photo) ||
+          `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=${fallbackColor}&color=fff`
+        }
+        className="w-8 h-8 object-cover rounded-full shrink-0"
+        alt={name}
+      />
+      <div className="min-w-0">
+        <p className="font-medium truncate" title={name}>{name}</p>
+        <p className="text-xs text-gray-500 truncate" title={email}>{email}</p>
+      </div>
+    </div>
+  );
+}
+
 function Reports() {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
@@ -136,65 +161,31 @@ function Reports() {
     {
       title: "No",
       key: "no",
+      width: 50,
       render: (_, __, index) =>
         (pagination.current - 1) * pagination.pageSize + index + 1,
     },
     {
       title: "Reported By",
       key: "reporter",
-      render: (_, record) => (
-        <div className="flex items-center gap-3">
-          <img
-            src={
-              getImageUrl(record.userId?.photo) ||
-              `https://ui-avatars.com/api/?name=${encodeURIComponent(
-                record.userId?.name || "U"
-              )}&background=00c0b5&color=fff`
-            }
-            className="w-10 h-10 object-cover rounded-full"
-            alt="User"
-          />
-          <div>
-            <p className="font-medium">
-              {record.userId?.name || "Unknown User"}
-            </p>
-            <p className="text-sm text-gray-500">{record.userId?.email}</p>
-          </div>
-        </div>
-      ),
+      width: 210,
+      render: (_, record) => <PersonCell user={record.userId} fallbackColor="00c0b5" />,
     },
     {
       title: "Reported User",
       key: "reportedUser",
+      width: 210,
       render: (_, record) => (
-        <div className="flex items-center gap-3">
-          <img
-            src={
-              getImageUrl(record.event_postId?.userId?.photo) ||
-              `https://ui-avatars.com/api/?name=${encodeURIComponent(
-                record.event_postId?.userId?.name || "U"
-              )}&background=00a89b&color=fff`
-            }
-            className="w-10 h-10 object-cover rounded-full"
-            alt="Reported User"
-          />
-          <div>
-            <p className="font-medium">
-              {record.event_postId?.userId?.name || "Unknown User"}
-            </p>
-            <p className="text-sm text-gray-500">
-              {record.event_postId?.userId?.email || "N/A"}
-            </p>
-          </div>
-        </div>
+        <PersonCell user={record.event_postId?.userId} fallbackColor="00a89b" />
       ),
     },
     {
       title: "Reason",
       dataIndex: "reason",
       key: "reason",
+      width: 170,
       render: (reason) => (
-        <span className="line-clamp-1" title={reason}>
+        <span className="line-clamp-2" title={reason}>
           {reason}
         </span>
       ),
@@ -202,27 +193,44 @@ function Reports() {
     {
       title: "Reported On",
       key: "createdAt",
-      render: (_, record) => new Date(record.createdAt).toLocaleDateString(),
+      width: 110,
+      render: (_, record) => (
+        <span className="whitespace-nowrap">{new Date(record.createdAt).toLocaleDateString()}</span>
+      ),
     },
     {
       title: "Status",
       key: "status",
-      render: (_, record) => (
-        <Select
-          size="small"
-          value={reportStatus(record)}
-          onChange={(value) => changeStatus(record, value)}
-          disabled={isUpdatingStatus}
-          options={STATUS_OPTIONS}
-          className="min-w-[140px]"
-          optionRender={(option) => <StatusBadge status={option.value} />}
-          labelRender={({ value }) => <StatusBadge status={value} />}
-        />
-      ),
+      width: 150,
+      render: (_, record) => {
+        const value = reportStatus(record);
+        return (
+          <div className={`inline-flex items-center rounded-full ${REPORT_STATUS[value].className}`}>
+            <Select
+              size="small"
+              variant="borderless"
+              value={value}
+              onChange={(next) => changeStatus(record, next)}
+              disabled={isUpdatingStatus}
+              options={STATUS_OPTIONS}
+              popupMatchSelectWidth={false}
+              className="report-status-select"
+              labelRender={({ label }) => (
+                <span className={`text-xs font-medium ${REPORT_STATUS[value].className.split(" ")[1]}`}>
+                  {label}
+                </span>
+              )}
+              optionRender={(option) => <StatusBadge status={option.value} />}
+            />
+          </div>
+        );
+      },
     },
     {
       title: "Action",
       key: "action",
+      width: 80,
+      fixed: "right",
       render: (_, record) => (
         <div className="flex gap-2">
           
@@ -291,7 +299,8 @@ function Reports() {
             Table: {
               headerBg: "#00c0b5",
               headerColor: "rgb(255,255,255)",
-              cellFontSize: 16,
+              cellFontSize: 14,
+              cellPaddingInline: 12,
               headerSplitColor: "#00c0b5",
             },
           },
@@ -310,7 +319,8 @@ function Reports() {
             pageSizeOptions: ["10", "20", "50", "100"],
           }}
           onChange={handleTableChange}
-          scroll={{ x: "max-content" }}
+          scroll={{ x: 980 }}
+          tableLayout="fixed"
         />
       </ConfigProvider>
 

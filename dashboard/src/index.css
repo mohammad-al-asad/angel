@@ -10,3 +10,14 @@ html {
     overflow-y: scroll; /* fallback: always reserve vertical scrollbar space */
   }
 }
+
+/* Reports page: status dropdown rendered as a colored pill */
+.report-status-select .ant-select-selector {
+  padding-inline: 10px 22px !important;
+  background: transparent !important;
+}
+.report-status-select .ant-select-arrow {
+  color: inherit;
+  opacity: 0.7;
+  inset-inline-end: 8px;
+}
