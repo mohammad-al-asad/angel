@@ -21,6 +21,7 @@ import autoDeleteStoryAfter24Hours from "./app/utils/autoDeleteStoryAfter24Hours
 import systemArtc from "./app/utils/metrics/systemArtc";
 import monitorRouter from "./app/utils/metrics/metricsMiddleware";
 import paypalPaymentController from "./app/modules/payment_gateway/payment_gateway.controller";
+import legalPagesRouter from "./app/settings/legalPages";
 
 declare global {
   namespace Express {
@@ -190,6 +191,8 @@ app.use(
   }),
 );
 
+// Public, readable legal pages (no login): /privacy-policy, /terms-and-conditions
+app.use(legalPagesRouter);
 app.use("/api/v1", router);
 app.use("/api/v1/monitor", monitorRouter); // ← metrics endpoint
 
