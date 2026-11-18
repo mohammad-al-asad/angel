@@ -7,7 +7,7 @@ const sendEmail = async (to: string, html: string, subject?: string) => {
   const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com.",
     port: 587,
-    secure: config.NODE_ENV?.includes("production"),
+    secure: false, // port 587 uses STARTTLS; "secure: true" is only for port 465
     auth: {
       user: config.send_email.nodemailer_email,
       pass: config.send_email.nodemailer_password,

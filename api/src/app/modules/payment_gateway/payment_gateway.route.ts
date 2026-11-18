@@ -9,9 +9,10 @@ import PaymentValidation from './payment_gateway.validation';
 
 const router = express.Router();
 
+// PayPal ticket purchase: body { eventId, ticketCount? } -> { orderId, approvalUrl, ... }
 router.post(
   "/payment_onboarding",
-  // auth(USER_ROLE.thrillseekers), // Uncomment if authentication needed
+  auth(USER_ROLE.thrillseekers),
   paypalPaymentController.paypalPayment
 );
 
@@ -27,9 +28,16 @@ router.get(
   paypalPaymentController.cancelOrder
 );
 
-// Verify payment status
+// Result page shown after PayPal (success / cancelled / failed)
+router.get(
+  "/paypal_result",
+  paypalPaymentController.paypalResult
+);
+
+// App check after PayPal: captures if approved and returns { isPaid, payment }
 router.get(
   "/verify/:orderId",
+  auth(USER_ROLE.thrillseekers),
   paypalPaymentController.verifyPayment
 );
 /*

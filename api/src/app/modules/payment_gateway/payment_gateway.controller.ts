@@ -7,118 +7,102 @@ import status from "http-status";
 import config from "../../config";
 import Stripe from "stripe";
 import AppError from "../../errors/AppError";
+import PaypalServices, { publicApiUrl } from "./paypal.services";
+
+// ---------------------------------------------------------------------------
+// PayPal ticket purchase (see paypal.services.ts for the full flow)
+// ---------------------------------------------------------------------------
+
+const escapeHtml = (value: string) =>
+  value.replace(/[&<>"']/g, (ch) =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[ch] as string
+  );
+
+// Small page shown in the browser/WebView after PayPal. The app can also watch for the URL
+// /api/v1/payment/paypal_result?status=success|cancelled|failed&orderId=...
+const paypalResultPage = (state: string, orderId: string) => {
+  const copy: Record<string, { title: string; text: string; color: string }> = {
+    success: { title: "Payment successful", text: "Your ticket is confirmed. You can go back to the Thrillio app.", color: "#16a34a" },
+    cancelled: { title: "Payment cancelled", text: "No money was taken. You can go back to the Thrillio app and try again.", color: "#d97706" },
+    pending: { title: "Payment processing", text: "PayPal is still processing your payment. Your ticket will appear in the app once it completes.", color: "#2563eb" },
+    failed: { title: "Payment not completed", text: "Something went wrong with the payment. No ticket was issued. Please try again in the app.", color: "#dc2626" },
+  };
+  const c = copy[state] || copy.failed;
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${c.title} | Thrillio</title>
+<style>body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#fff;color:#1f2328;display:flex;min-height:100vh;align-items:center;justify-content:center;padding:16px;box-sizing:border-box}@media(prefers-color-scheme:dark){body{background:#0d1117;color:#e6edf3}}.card{max-width:420px;text-align:center}h1{color:${c.color};font-size:24px;margin:0 0 8px}p{line-height:1.6;margin:0 0 8px}small{opacity:.6}</style></head>
+<body><div class="card"><h1>${c.title}</h1><p>${c.text}</p>${orderId ? `<small>Order ${escapeHtml(orderId)}</small>` : ""}</div></body></html>`;
+};
 
 const paypalPayment: RequestHandler = catchAsync(async (req, res) => {
-  const { amount, currency, itemName, itemDescription, orderId } = req.body;
+  const { eventId, ticketCount, currency } = req.body || {};
 
-  if (!amount) {
-    return sendResponse(res, {
-      success: false,
-      statusCode: status.BAD_REQUEST,
-      message: "Amount is required",
-      data: null,
-    });
-  }
-
-  const result = await PaymentService.paypalPaymentIntoDb({
-    amount,
+  const result = await PaypalServices.createPaypalTicketOrder(req.user.id, {
+    eventId,
+    ticketCount,
     currency,
-    itemName,
-    itemDescription,
-    orderId,
-    userId: req.user?.id, 
   });
-
-  // Extract approval URL
-  const approvalUrl = result.data.links.find(link => link.rel === "approve")?.href;
 
   sendResponse(res, {
     success: true,
     statusCode: status.OK,
     message: "Payment order created successfully",
-    data: {
-      orderId: result.data.id,
-      status: result.data.status,
-      approvalUrl,
-      fullResponse: result.data,
-    },
+    data: result,
   });
 });
 
-const completeOrder: RequestHandler = catchAsync(async (req, res) => {
-  const { token } = req.query; 
-
-  if (!token || typeof token !== 'string') {
-    return sendResponse(res, {
-      success: false,
-      statusCode: status.BAD_REQUEST,
-      message: "Order ID (token) is required",
-      data: null,
-    });
-  }
-
-  const captureData = await PaymentService.capturePaypalPayment(token);
-
-  if (captureData.status === "COMPLETED") {
-  
-    return res.redirect(`${config.payment_getway_credentials.frontend_url}/payment-success?orderId=${captureData.id}`);
-    
-    // Or send JSON response:
-    // return sendResponse(res, {
-    //   success: true,
-    //   statusCode: status.OK,
-    //   message: "Payment completed successfully",
-    //   data: {
-    //     orderId: captureData.id,
-    //     status: captureData.status,
-    //     amount: captureData.purchase_units[0].payments.captures[0].amount,
-    //     payer: captureData.payer,
-    //   },
-    // });
-  } else {
-    return sendResponse(res, {
-      success: false,
-      statusCode: status.PAYMENT_REQUIRED,
-      message: "Payment not completed",
-      data: captureData,
-    });
-  }
-});
-
-const cancelOrder: RequestHandler = catchAsync(async (req, res) => {
-  const { token } = req.query;
-
- 
-  return res.redirect(`${config.payment_getway_credentials.frontend_url}/payment-cancelled?orderId=${token}`);
-
-  // Or send JSON response:
-  // return sendResponse(res, {
-  //   success: false,
-  //   statusCode: status.OK,
-  //   message: "Payment was cancelled by user",
-  //   data: { orderId: token },
-  // });
-});
-
-const verifyPayment: RequestHandler = catchAsync(async (req, res) => {
-  const { orderId } = req.params;
+// PayPal redirects the user's browser here after they approve the payment
+const completeOrder: RequestHandler = async (req, res) => {
+  const orderId = typeof req.query.token === "string" ? req.query.token : "";
+  const resultUrl = (state: string) =>
+    `${publicApiUrl()}/api/v1/payment/paypal_result?status=${state}&orderId=${encodeURIComponent(orderId)}`;
 
   if (!orderId) {
-    return sendResponse(res, {
-      success: false,
-      statusCode: status.BAD_REQUEST,
-      message: "Order ID is required",
-      data: null,
-    });
+    return res.redirect(resultUrl("failed"));
   }
+  try {
+    const result = await PaypalServices.syncPaypalOrder(orderId, { capture: true });
+    const state = result.isPaid
+      ? "success"
+      : ["APPROVED", "PAYER_ACTION_REQUIRED"].includes(result.paypalStatus)
+        ? "pending"
+        : "failed";
+    return res.redirect(resultUrl(state));
+  } catch (error: any) {
+    console.error(`PayPal complete-order failed for ${orderId}:`, error?.message || error);
+    return res.redirect(resultUrl("failed"));
+  }
+};
 
-  const paymentDetails = await PaymentService.verifyPaypalPayment(orderId);
+// PayPal redirects here if the user cancels
+const cancelOrder: RequestHandler = async (req, res) => {
+  const orderId = typeof req.query.token === "string" ? req.query.token : "";
+  return res.redirect(
+    `${publicApiUrl()}/api/v1/payment/paypal_result?status=cancelled&orderId=${encodeURIComponent(orderId)}`
+  );
+};
+
+const paypalResult: RequestHandler = async (req, res) => {
+  const state = typeof req.query.status === "string" ? req.query.status : "failed";
+  const orderId = typeof req.query.orderId === "string" ? req.query.orderId : "";
+  res
+    .status(200)
+    .set({
+      "Content-Type": "text/html; charset=utf-8",
+      "Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'; frame-ancestors 'none'",
+      "Cache-Control": "no-store",
+    })
+    .send(paypalResultPage(state, orderId));
+};
+
+// App calls this after the PayPal screen closes: captures if needed and returns the ticket status
+const verifyPayment: RequestHandler = catchAsync(async (req, res) => {
+  const result = await PaypalServices.verifyPaypalTicketOrder(req.user.id, req.params.orderId as string);
 
   sendResponse(res, {
     success: true,
     statusCode: status.OK,
-    message: "Payment details retrieved successfully",
-    data: paymentDetails,
+    message: result.isPaid ? "Payment completed" : "Payment not completed yet",
+    data: result,
   });
 });
 
@@ -318,6 +302,7 @@ const paypalPaymentController = {
   completeOrder,
   cancelOrder,
   verifyPayment,
+  paypalResult,
     createConnectedAccountAndOnboardingLink,
   refreshOnboardingLink,
   createPaymentIntent,

@@ -3,6 +3,8 @@ import AppError from "../errors/AppError";
 import { payment_status } from "../modules/payment_gateway/payment_gateway.constant";
 import paymentgateways from "../modules/payment_gateway/payment_gateway.model";
 import PaymentService from "../modules/payment_gateway/payment_gateway.services";
+import PaypalServices from "../modules/payment_gateway/paypal.services";
+import { payment_method } from "../modules/payment_gateway/payment_gateway.constant";
 
 /**
  * Removes abandoned checkouts (unpaid for more than 30 minutes).
@@ -21,7 +23,7 @@ const handle_unpaid_payment = async () => {
         isDelete: false,
         createdAt: { $lt: timeThreshold },
       })
-      .select('_id sessionId')
+      .select('_id sessionId paymentmethod paypalOrderId')
       .lean();
 
     if (!candidates.length) {
@@ -37,7 +39,10 @@ const handle_unpaid_payment = async () => {
         continue;
       }
       try {
-        const result = await PaymentService.syncCheckoutSessionPayment(payment.sessionId as string);
+        const result =
+          payment.paymentmethod === payment_method.paypal && payment.paypalOrderId
+            ? await PaypalServices.syncPaypalOrder(payment.paypalOrderId, { capture: true })
+            : await PaymentService.syncCheckoutSessionPayment(payment.sessionId as string);
         if (result.isPaid) {
           recoveredCount++;
         } else {

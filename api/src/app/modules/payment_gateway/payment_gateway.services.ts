@@ -16,6 +16,7 @@ import { payment_method, payment_status } from './payment_gateway.constant';
 import notifications from '../notification/notification.model';
 import NotificationServices from '../notification/notification.services';
 import { NotificationType } from '../notification/notification.constant';
+import PaypalServices from './paypal.services';
 
 const stripe = new Stripe(
   config.stripe_payment_gateway.stripe_secret_key as string,
@@ -781,16 +782,20 @@ const reconcileUserPendingPayments = async (userId: string) => {
       sessionId: { $exists: true, $ne: null },
       createdAt: { $gte: new Date(Date.now() - 24 * 60 * 60 * 1000) },
     })
-    .select('sessionId')
+    .select('sessionId paymentmethod paypalOrderId')
     .sort({ createdAt: -1 })
     .limit(10)
     .lean();
 
   for (const p of pending) {
     try {
-      await syncCheckoutSessionPayment(p.sessionId as string);
+      if (p.paymentmethod === payment_method.paypal && p.paypalOrderId) {
+        await PaypalServices.syncPaypalOrder(p.paypalOrderId, { capture: true });
+      } else {
+        await syncCheckoutSessionPayment(p.sessionId as string);
+      }
     } catch (error: any) {
-      console.error(`Could not reconcile checkout ${p.sessionId}:`, error?.message || error);
+      console.error(`Could not reconcile payment ${p.sessionId}:`, error?.message || error);
     }
   }
 };

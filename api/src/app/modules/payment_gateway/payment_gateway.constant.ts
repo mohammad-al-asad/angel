@@ -1,6 +1,7 @@
 export const payment_method = {
   card: "card",
   cash: "cash",
+  paypal: "paypal",
 } as const;
 
 export const payment_status = {

@@ -9,7 +9,8 @@ export interface TStripePaymentGateWay {
   description?: String;
   currency?: String;
   sessionId?: String;
-  paymentmethod?: "card" | "cash";
+  paymentmethod?: "card" | "cash" | "paypal";
+  paypalOrderId?: string;
   payment_status?: "unpaid" | "paid";
   payable_name?: String;
   payable_email?: String;

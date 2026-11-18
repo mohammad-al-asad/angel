@@ -114,7 +114,7 @@ const TPaymentGateWaySchema = new Schema<
     paymentmethod: {
       type: String,
       enum: {
-        values: [payment_method.cash, payment_method.card],
+        values: [payment_method.cash, payment_method.card, payment_method.paypal],
         message: "{VALUE} is not a valid provider",
       },
       required: [false, "payment method is not Required"],
@@ -141,6 +141,12 @@ const TPaymentGateWaySchema = new Schema<
     payment_intent: {
       type: String,
       required: [false, "payment intent is not required"],
+    },
+    // PayPal order id (PayPal purchases only; sessionId is "paypal_<orderId>" for those)
+    paypalOrderId: {
+      type: String,
+      required: false,
+      index: { unique: true, sparse: true },
     },
     country: {
       type: String,

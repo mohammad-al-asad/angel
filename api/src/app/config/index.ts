@@ -31,6 +31,8 @@ firebase_account_key: {
       paypal_base_url: process.env.PAYPAL_BASE_URL, 
       frontend_url:process.env.FRONTEND_URL
    },
+   // Public URL of this API (PayPal return/cancel redirects), e.g. https://api.thrillio.co
+   public_api_url: process.env.PUBLIC_API_URL,
      stripe_payment_gateway: {
     stripe_secret_key: process.env.STRIPE_SECRET_KEY,
     stripe_webhook_secret: process.env.STRIPE_WEBHOOK_SECRET,
