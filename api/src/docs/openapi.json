@@ -1,0 +1,5825 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Angel (Thrillio) Backend API",
+    "version": "1.0.0",
+    "description": "Generated from angel-backend.postman_collection.json. Authenticated endpoints expect the raw JWT (no \"Bearer\" prefix) in the Authorization header — get one from POST /api/v1/auth/login_user."
+  },
+  "servers": [
+    {
+      "url": "/",
+      "description": "This server"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "Authorization": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "auth"
+    },
+    {
+      "name": "user"
+    },
+    {
+      "name": "settings"
+    },
+    {
+      "name": "event"
+    },
+    {
+      "name": "event_post"
+    },
+    {
+      "name": "JoinEventGroup"
+    },
+    {
+      "name": "event_chatroom"
+    },
+    {
+      "name": "event_social_post"
+    },
+    {
+      "name": "event_post_reply"
+    },
+    {
+      "name": "social_feed_route"
+    },
+    {
+      "name": "Nearest_Eevent_Filtering"
+    },
+    {
+      "name": "favorite_event"
+    },
+    {
+      "name": "memories_event"
+    },
+    {
+      "name": "reports"
+    },
+    {
+      "name": "followup"
+    },
+    {
+      "name": "user_group_and_chatromm"
+    },
+    {
+      "name": "payment"
+    },
+    {
+      "name": "Conversation"
+    },
+    {
+      "name": "admin-dashboard"
+    },
+    {
+      "name": "notification"
+    },
+    {
+      "name": "message"
+    },
+    {
+      "name": "social_feed_report"
+    },
+    {
+      "name": "point_system"
+    },
+    {
+      "name": "rating"
+    },
+    {
+      "name": "support"
+    },
+    {
+      "name": "store_react"
+    },
+    {
+      "name": "misc"
+    }
+  ],
+  "paths": {
+    "/api/v1/auth/login_user": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "login_user",
+        "operationId": "auth_login_user",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "email": "user@example.com",
+                "password": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/refresh-token": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "refresh-token",
+        "operationId": "auth_refresh_token",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "refreshToken": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "refreshToken": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/myprofile": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "myprofile",
+        "operationId": "auth_myprofile",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/auth/update_my_profile": {
+      "patch": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "update_my_profile",
+        "operationId": "auth_update_my_profile",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "string",
+                    "description": "JSON string",
+                    "example": "{\n  \"name\": \"Riyaj Uddin\",\n  \"dateOfBirth\": \"12-09-2000\",\n  \"phoneNumber\": \"01722305054\"\n}"
+                  },
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/find_by_admin_all_users": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "find_by_admin_all_users",
+        "operationId": "auth_find_by_admin_all_users",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/auth/delete_account/{id}": {
+      "delete": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "delete_account",
+        "operationId": "auth_delete_account",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "68fd27c6e5144525f9098233",
+            "description": "ID used by delete_account"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "email": "user@example.com",
+                "password": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/change_status/{id}": {
+      "patch": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "change_status",
+        "operationId": "auth_change_status",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "68b71e270256ddb0b89dd214",
+            "description": "ID used by change_status"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "status": "blocked"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/user/create_user": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "create_user",
+        "operationId": "user_create_user",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "phoneNumber": {
+                    "type": "string"
+                  },
+                  "dateOfBirth": {
+                    "type": "string"
+                  },
+                  "fcm": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "name": "Parves Mosarof",
+                "password": "string",
+                "email": "user@example.com",
+                "phoneNumber": "01828170792",
+                "dateOfBirth": "1999-09-20",
+                "fcm": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/user/user_verification": {
+      "patch": {
+        "tags": [
+          "user"
+        ],
+        "summary": "user_verification",
+        "operationId": "user_user_verification",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "verificationCode": {
+                    "type": "integer"
+                  }
+                }
+              },
+              "example": {
+                "verificationCode": 602265
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/user/change_password": {
+      "patch": {
+        "tags": [
+          "user"
+        ],
+        "summary": "change_password",
+        "operationId": "user_change_password",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "newpassword": {
+                    "type": "string"
+                  },
+                  "oldpassword": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "newpassword": "string",
+                "oldpassword": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/user/forgot_password": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "forgot_password",
+        "operationId": "user_forgot_password",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "email": "user@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/user/verification_forgot_user": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "verification_forgot_user",
+        "operationId": "user_verification_forgot_user",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "verificationCode": {
+                    "type": "integer"
+                  }
+                }
+              },
+              "example": {
+                "verificationCode": 900761
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/user/reset_password": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "reset_password",
+        "operationId": "user_reset_password",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userId": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "userId": "68b71e270256ddb0b89dd214",
+                "password": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/user/google_auth": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "google_auth",
+        "operationId": "user_google_auth",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "photo": {
+                    "type": "string"
+                  },
+                  "role": {
+                    "type": "string"
+                  },
+                  "fcm": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "name": "king",
+                "email": "user@example.com",
+                "photo": "https://images.pexels.com/photos/30889575/pexels-photo-30889575/free-photo-of-elegant-orange-sports-car-on-scenic-road.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+                "role": "host",
+                "fcm": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/setting/about": {
+      "post": {
+        "tags": [
+          "settings"
+        ],
+        "summary": "about",
+        "operationId": "settings_about",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "aboutUs": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "aboutUs": " THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG "
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/setting/find_by_about_us": {
+      "get": {
+        "tags": [
+          "settings"
+        ],
+        "summary": "find_by_about_us",
+        "operationId": "settings_find_by_about_us",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/v1/setting/privacy_policys": {
+      "post": {
+        "tags": [
+          "settings"
+        ],
+        "summary": "privacy_policys",
+        "operationId": "settings_privacy_policys",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "PrivacyPolicy": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "PrivacyPolicy": "<h2>Privacy Policy</h2><p>We value your privacy. This policy explains how we collect and use your information.</p><h3>Information We Collect</h3><p>We may collect your name, email, location (if allowed), and app usage data.</p><h3>Use of Information</h3><p>Your data helps us improve services, send updates, and ensure security.</p><h3>Sharing</h3><p>We do not sell your data. It may be shared only with trusted providers or if required by law.</p><h3>Protection</h3><p>We use security measures to protect your information but cannot guarantee 100% safety online.</p><h3>Your Rights</h3><p>You may access, update, or delete your info anytime via settings.</p><h3>Contact</h3><p>Questions? Email us at <a href='mailto:support@example.com'>support@example.com</a>.</p>"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/setting/find_by_privacy_policys": {
+      "get": {
+        "tags": [
+          "settings"
+        ],
+        "summary": "find_by_privacy_policyss",
+        "operationId": "settings_find_by_privacy_policyss",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/v1/setting/terms_conditions": {
+      "post": {
+        "tags": [
+          "settings"
+        ],
+        "summary": "terms_conditions",
+        "operationId": "settings_terms_conditions",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "TermsConditions": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "TermsConditions": " THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG "
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/setting/find_by_terms_conditions": {
+      "get": {
+        "tags": [
+          "settings"
+        ],
+        "summary": "find_by_trams_and_condition",
+        "operationId": "settings_find_by_trams_and_condition",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/v1/event/create_event": {
+      "post": {
+        "tags": [
+          "event"
+        ],
+        "summary": "create_event",
+        "operationId": "event_create_event",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "string",
+                    "description": "JSON string",
+                    "example": "{\n  \"hostId\": \"65a7f2e9c1d3b1f123456789\",\n  \"event_title\": \"Tech Conference 2026\",\n  \"description\": \"the quick brown fox jumps over the lazy dog\",\n  \"date\": \"2026-01-31\",\n  \"starting_time\": \"4:14 AM\",\n  \"ending_time\": \"11:00 AM\",\n  \"venue_facilities\": [\n    {\n      \"type\": \"washroom\",\n      \"available\": true,\n      \"description\": \"Free parking available for attendees.\"\n    },\n    {\n      \"type\": \"handwashstation\",\n      \"available\": true,\n      \"description\": \"High-speed internet available throughout the venue.\"\n    }\n  ],\n  \"event_category\": \"Parties\",\n  \"event_features\": \"Pet Friendly\",\n  \"audience_settings\": {\n    \"age\": \"21+\",\n    \"max_capacity\": 500,\n    \"visibility\": \"Private\",\n    \"email\": \"user@example.com\",\n    \"social_media\": {\n      \"content\": true,\n      \"gallery\": false,\n      \"sharing\": true,\n      \"streaming\": true\n    },\n    \"notification\": {\n      \"livechat\": true,\n      \"push_notifications\": true,\n      \"event_countdown\": true\n    },\n    \"point_system\": {\n      \"people\": 5,\n      \"point\": 100\n    },\n    \"ticket_price\": \"paid\",\n    \"price\": 20,\n    \"event_location\": {\n      \"lat\": \"23.8103\",\n      \"lon\": \"90.4125\"\n    }\n  }\n}"
+                  },
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/event/find_my_event_list": {
+      "get": {
+        "tags": [
+          "event"
+        ],
+        "summary": "find_my_event_list",
+        "operationId": "event_find_my_event_list",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "1"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "10"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/event/my_event_dashboard": {
+      "get": {
+        "tags": [
+          "event"
+        ],
+        "summary": "my_event_dashboard",
+        "operationId": "event_my_event_dashboard",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/event/my_event_type_ways_filtering": {
+      "get": {
+        "tags": [
+          "event"
+        ],
+        "summary": "my_event_type_ways_filtering",
+        "operationId": "event_my_event_type_ways_filtering",
+        "parameters": [
+          {
+            "name": "searchTerm",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "live"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "1"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "10"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/event/update_event/{id}": {
+      "patch": {
+        "tags": [
+          "event"
+        ],
+        "summary": "update_event",
+        "operationId": "event_update_event",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "69793fd769032d7a163b607c",
+            "description": "ID used by update_event"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "string",
+                    "description": "JSON string",
+                    "example": "{\n  \"event_title\": \"the ewhrqwhrhqwjh\",\n  \"description\": \"A global conference discussing the latest in AI and Web3.\",\n  \"date\": \"2026-01-29\",\n  \"starting_time\": \"10:00  AM\",\n  \"ending_time\": \"04:00 PM\",\n  \"audience_settings\": {\n    \"event_location\": {\n      \"lat\": \"23.8103\",\n      \"lon\": \"90.4126\"\n    }\n  }\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/event/find_by_specific_event/{id}": {
+      "get": {
+        "tags": [
+          "event"
+        ],
+        "summary": "specifc_event",
+        "operationId": "event_specifc_event",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "68c9efca2b903379c54f9ade",
+            "description": "ID used by find_by_specific_event"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/event/delete_event/{id}": {
+      "delete": {
+        "tags": [
+          "event"
+        ],
+        "summary": "delete_event",
+        "operationId": "event_delete_event",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "69794c56e151e6b4fc6b1d01",
+            "description": "ID used by delete_event"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "string",
+                    "description": "JSON string",
+                    "example": "{\n  \"event_title\": \"Tech Conference\",\n  \"description\": \"A global conference discussing the latest in AI and Web3.\",\n  \"date\": \"2025-09-20\",\n  \"starting_time\": \"10:00 am\",\n  \"ending_time\": \"04:00 pm\",\n  \"audience_settings\": {\n    \"event_location\": {\n      \"lat\": \"23.8103\",\n      \"lon\": \"90.4126\"\n    }\n  }\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/event/find_my_nearest_event": {
+      "get": {
+        "tags": [
+          "event"
+        ],
+        "summary": "find_my_nearest_event",
+        "operationId": "event_find_my_nearest_event",
+        "parameters": [
+          {
+            "name": "lat",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "24.89"
+          },
+          {
+            "name": "lon",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "90.4075657"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/event/find_by_nearest_event": {
+      "get": {
+        "tags": [
+          "event"
+        ],
+        "summary": "find_by_nearest_event",
+        "operationId": "event_find_by_nearest_event",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/event/host_all_event_avg_rating": {
+      "get": {
+        "tags": [
+          "event"
+        ],
+        "summary": "host_all_event_avg_rating",
+        "operationId": "event_host_all_event_avg_rating",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/event/agora_access_token/{id}": {
+      "get": {
+        "tags": [
+          "event"
+        ],
+        "summary": "agora_access_token",
+        "operationId": "event_agora_access_token",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "69823a7e31a308148f9fb733",
+            "description": "ID used by agora_access_token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/v1/event_post/create_post_event": {
+      "post": {
+        "tags": [
+          "event_post"
+        ],
+        "summary": "create_post_event",
+        "operationId": "event_post_create_post_event",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "string",
+                    "description": "JSON string",
+                    "example": "{\n  \"eventId\": \"697fce1c0652e6892807f587\"\n}"
+                  },
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/tag_user": {
+      "get": {
+        "tags": [
+          "event_post"
+        ],
+        "summary": "tag_user",
+        "operationId": "event_post_tag_user",
+        "parameters": [
+          {
+            "name": "searchTerm",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "Sohel Host"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/event_post/find_by_all_specific_event_post_list/{id}": {
+      "get": {
+        "tags": [
+          "event_post"
+        ],
+        "summary": "find_by_all_specific_event_post_list",
+        "operationId": "event_post_find_by_all_specific_event_post_list",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "697fc99786a59c8594e4c061",
+            "description": "ID used by find_by_all_specific_event_post_list"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "1"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "2"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/event_post/delete_event_post/{id}": {
+      "delete": {
+        "tags": [
+          "event_post"
+        ],
+        "summary": "delete_event_post",
+        "operationId": "event_post_delete_event_post",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "68e6bb9dec13cfc31931d539",
+            "description": "ID used by delete_event_post"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "string",
+                    "description": "JSON string",
+                    "example": "{\n  \"eventId\": \"68b776743532adff9c17211a\",\n  \"content\": \"Updated post content about the Tech Conference1.\",\n  \"caption\": \"Excited for the 2025 Tech Conference!\",\n  \"tag_people\": [\n    \"68b8b2367f01c4dbda934712\",\n    \"68b76fca5941636d3fb7dfd1\"\n  ]\n}"
+                  },
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/event_post/create_social_feed_post_event": {
+      "post": {
+        "tags": [
+          "event_post"
+        ],
+        "summary": "create_social_feed_post_event",
+        "operationId": "event_post_create_social_feed_post_event",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "data": {
+                    "type": "string",
+                    "description": "JSON string",
+                    "example": "{\n  \"caption\": \"the quicik brown fox jumps over the lazy dog\",\n  \"tag_people\": [\n    \"68b8b2367f01c4dbda934712\",\n    \"68b76fca5941636d3fb7dfd1\"\n  ]\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/event_post/react_specific_event/{id}": {
+      "post": {
+        "tags": [
+          "event_post"
+        ],
+        "summary": "react_specific_event",
+        "operationId": "event_post_react_specific_event",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "68c853d390c916c99efa3d42",
+            "description": "ID used by react_specific_event"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "string",
+                    "description": "JSON string",
+                    "example": "{\n  \"eventId\": \"68bca043cfbd979def35b32b\",\n  \"content\": \"Updated post content about the Tech Conference1.\",\n  \"caption\": \"Excited for the 2025 Tech Conference!\",\n  \"tag_people\": [\n    \"68b8b2367f01c4dbda934712\",\n    \"68b76fca5941636d3fb7dfd1\"\n  ]\n}"
+                  },
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/event_post/completed_live_event_post_media_file/{id}": {
+      "get": {
+        "tags": [
+          "event_post"
+        ],
+        "summary": "completed_live_event_post_media_file",
+        "operationId": "event_post_completed_live_event_post_media_file",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "68f7cec11d72ab10fc26171c",
+            "description": "ID used by completed_live_event_post_media_file"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/event_post/update_event_post/{id}": {
+      "patch": {
+        "tags": [
+          "event_post"
+        ],
+        "summary": "update_event_post",
+        "operationId": "event_post_update_event_post",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "68c853d390c916c99efa3d42",
+            "description": "ID used by update_event_post"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "caption": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "caption": "the quick brown fox jumps over the lazy dog"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/event_post/find_my_all_event_post_list/{id}": {
+      "get": {
+        "tags": [
+          "event_post"
+        ],
+        "summary": "find_my_all_event_post_list",
+        "operationId": "event_post_find_my_all_event_post_list",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "68c0936b87afe71dc986f4ad",
+            "description": "ID used by find_my_all_event_post_list"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "1"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "10"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/join_group/find_by_my_join_event_Group": {
+      "get": {
+        "tags": [
+          "JoinEventGroup"
+        ],
+        "summary": "find_by_my_join_event_Group",
+        "operationId": "JoinEventGroup_find_by_my_join_event_Group",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "1"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "10"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/join_group/find_by_specific_my_join_group/{id}": {
+      "get": {
+        "tags": [
+          "JoinEventGroup"
+        ],
+        "summary": "find_by_specific_my_join_group",
+        "operationId": "JoinEventGroup_find_by_specific_my_join_group",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "69acb42d4de1038920360f19",
+            "description": "ID used by find_by_specific_my_join_group"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/join_group/update_my_join_group/{id}": {
+      "patch": {
+        "tags": [
+          "JoinEventGroup"
+        ],
+        "summary": "update_my_join_group",
+        "operationId": "JoinEventGroup_update_my_join_group",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "68bca043cfbd979def35b334",
+            "description": "ID used by update_my_join_group"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "groupName": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "groupName": "Eleegon"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/join_group/join_event_group/{id}": {
+      "get": {
+        "tags": [
+          "JoinEventGroup"
+        ],
+        "summary": "join_event_group",
+        "operationId": "JoinEventGroup_join_event_group",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "69acb42d4de1038920360f19",
+            "description": "ID used by join_event_group"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/join_group/delete_join_event_group/{id}": {
+      "delete": {
+        "tags": [
+          "JoinEventGroup"
+        ],
+        "summary": "delete_join_event_group",
+        "operationId": "JoinEventGroup_delete_join_event_group",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "694991b1d360c719fcaee738",
+            "description": "ID used by delete_join_event_group"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/join_group/create_new_group": {
+      "post": {
+        "tags": [
+          "JoinEventGroup"
+        ],
+        "summary": "create_new_group",
+        "operationId": "JoinEventGroup_create_new_group",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "string",
+                    "description": "JSON string",
+                    "example": "{\n  \"groupName\": \"Friends\",\n  \"userList\": [\n    \"691252de061b22c7b07d2376\",\n    \"69370e1356b3f854b1a9e04b\"\n  ]\n}"
+                  },
+                  "photo": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/join_group/delete_additional_group/{id}": {
+      "delete": {
+        "tags": [
+          "JoinEventGroup"
+        ],
+        "summary": "delete_additional_group",
+        "operationId": "JoinEventGroup_delete_additional_group",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "695ed3de972d4e0ab9e5da16",
+            "description": "ID used by delete_additional_group"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/join_group/upload_group_photo/{id}": {
+      "patch": {
+        "tags": [
+          "JoinEventGroup"
+        ],
+        "summary": "upload_group_photo",
+        "operationId": "JoinEventGroup_upload_group_photo",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "696687088cf0a4002fe68265",
+            "description": "ID used by upload_group_photo"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/join_group/find_by_specific_join_event_group/{id}": {
+      "get": {
+        "tags": [
+          "JoinEventGroup"
+        ],
+        "summary": "find_by_specific_join_event_group",
+        "operationId": "JoinEventGroup_find_by_specific_join_event_group",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "69acb42d4de1038920360f19",
+            "description": "ID used by find_by_specific_join_event_group"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/event_chat_room/find_by_my_event_chatroom": {
+      "get": {
+        "tags": [
+          "event_chatroom"
+        ],
+        "summary": "find_by_my_event_chatroom",
+        "operationId": "event_chatroom_find_by_my_event_chatroom",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "1"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "10"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/event_chat_room/find_by_specific_my_chatRoom/{id}": {
+      "get": {
+        "tags": [
+          "event_chatroom"
+        ],
+        "summary": "find_by_specific_my_chatRoom",
+        "operationId": "event_chatroom_find_by_specific_my_chatRoom",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "694991b0d360c719fcaee72c",
+            "description": "ID used by find_by_specific_my_chatRoom"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/event_chat_room/update_my_join_group/{id}": {
+      "patch": {
+        "tags": [
+          "event_chatroom"
+        ],
+        "summary": "update_my_join_group",
+        "operationId": "event_chatroom_update_my_join_group",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "68bca043cfbd979def35b336",
+            "description": "ID used by update_my_join_group"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "chatRoomName": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "chatRoomName": "eleegon kaspia"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/event_chat_room/join_event_chatroom/{id}": {
+      "get": {
+        "tags": [
+          "event_chatroom"
+        ],
+        "summary": "join_event_chatroom",
+        "operationId": "event_chatroom_join_event_chatroom",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "68bca043cfbd979def35b336",
+            "description": "ID used by join_event_chatroom"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/event_chat_room/delete_event_chatroom/{id}": {
+      "delete": {
+        "tags": [
+          "event_chatroom"
+        ],
+        "summary": "delete_event_chatroom",
+        "operationId": "event_chatroom_delete_event_chatroom",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "68c9f11f546ef79c050f897d",
+            "description": "ID used by delete_event_chatroom"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/event_social_post/react_event": {
+      "post": {
+        "tags": [
+          "event_social_post"
+        ],
+        "summary": "react_event",
+        "operationId": "event_social_post_react_event",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "eventpostId": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "eventpostId": "68e436b38d1b8f529ace0e4a"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/event_social_post/event_comment": {
+      "post": {
+        "tags": [
+          "event_social_post"
+        ],
+        "summary": "event_comment",
+        "operationId": "event_social_post_event_comment",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "eventpostId": {
+                    "type": "string"
+                  },
+                  "comment": {
+                    "type": "string"
+                  },
+                  "groupId": {
+                    "type": "string"
+                  },
+                  "senderId": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "eventpostId": "69921ccf5b59245790c3ce50",
+                "comment": "the quick brown fox",
+                "groupId": "68c853d390c916c99efa3d42",
+                "senderId": "68c853d390c916c99efa3d42"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/event_social_post/delete_event_post/{id}": {
+      "delete": {
+        "tags": [
+          "event_social_post"
+        ],
+        "summary": "delete_event_post",
+        "operationId": "event_social_post_delete_event_post",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "68d2d9e615135e252ed08340",
+            "description": "ID used by delete_event_post"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/event_social_post/event_share": {
+      "post": {
+        "tags": [
+          "event_social_post"
+        ],
+        "summary": "event_share",
+        "operationId": "event_social_post_event_share",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "eventpostId": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "eventpostId": "68e6bb9dec13cfc31931d539"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/event_post_reply/reply": {
+      "post": {
+        "tags": [
+          "event_post_reply"
+        ],
+        "summary": "reply",
+        "operationId": "event_post_reply_reply",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "commentEventPostId": {
+                    "type": "string"
+                  },
+                  "comment": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "commentEventPostId": "68e9438ae685e355afea31dc",
+                "comment": "hfdjgsd sdfhsdaf reply sohel 517522"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/event_post_reply/find_by_specific_event_comment_filtering/{id}": {
+      "get": {
+        "tags": [
+          "event_post_reply"
+        ],
+        "summary": "find_by_specific_event_comment_filtering",
+        "operationId": "event_post_reply_find_by_specific_event_comment_filtering",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "69028b68c9c5e939f07d6893",
+            "description": "ID used by find_by_specific_event_comment_filtering"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/event_post_reply/find_by_specific_event_reply_filtering/{id}": {
+      "get": {
+        "tags": [
+          "event_post_reply"
+        ],
+        "summary": "find_by_specific_event_reply_filtering",
+        "operationId": "event_post_reply_find_by_specific_event_reply_filtering",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "68e4232a5c8c2aaab65bb34a",
+            "description": "ID used by find_by_specific_event_reply_filtering"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/event_post_reply/delete_reply/{id}": {
+      "delete": {
+        "tags": [
+          "event_post_reply"
+        ],
+        "summary": "delete_reply",
+        "operationId": "event_post_reply_delete_reply",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "68ebe4d312a5e4592d8e1809",
+            "description": "ID used by delete_reply"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/social_feed_route/social_feed": {
+      "post": {
+        "tags": [
+          "social_feed_route"
+        ],
+        "summary": "social_feed",
+        "operationId": "social_feed_route_social_feed",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "string",
+                    "description": "JSON string",
+                    "example": "{\n  \"message\": \"khsdfhasd sahkdgfhgasd new day\"\n}"
+                  },
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/social_feed_route/find_my_follow_waie_social_feed": {
+      "get": {
+        "tags": [
+          "social_feed_route"
+        ],
+        "summary": "find_my_follow_waie_social_feed",
+        "operationId": "social_feed_route_find_my_follow_waie_social_feed",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "1"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "10"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/event/nearest_location_ways_non_event": {
+      "get": {
+        "tags": [
+          "Nearest_Eevent_Filtering"
+        ],
+        "summary": "nearest_location_ways_non_event",
+        "operationId": "Nearest_Eevent_Filtering_nearest_location_ways_non_event",
+        "parameters": [
+          {
+            "name": "latitude",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "37.4219983"
+          },
+          {
+            "name": "longitude",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "-122.084"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "hire salon"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/favorite_event/recorded_my_favorite_event": {
+      "post": {
+        "tags": [
+          "favorite_event"
+        ],
+        "summary": "recorded_my_favorite_event",
+        "operationId": "favorite_event_recorded_my_favorite_event",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "address": {
+                    "type": "string"
+                  },
+                  "rating": {
+                    "type": "number"
+                  },
+                  "totalRatings": {
+                    "type": "integer"
+                  },
+                  "location": {
+                    "type": "object",
+                    "properties": {
+                      "lat": {
+                        "type": "number"
+                      },
+                      "lng": {
+                        "type": "number"
+                      }
+                    }
+                  },
+                  "openNow": {
+                    "type": "boolean"
+                  },
+                  "types": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "image": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "id": "ChIJY0yKLzq7j4ARNNLYPbJMgN8",
+                "name": "Reposado",
+                "address": "236 Hamilton Avenue, Palo Alto",
+                "rating": 4.3,
+                "totalRatings": 2088,
+                "location": {
+                  "lat": 37.4441583,
+                  "lng": -122.1609667
+                },
+                "openNow": true,
+                "types": [
+                  "bar",
+                  "restaurant",
+                  "point_of_interest",
+                  "food",
+                  "establishment"
+                ],
+                "image": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=ATCDNfUIRBZR6CqzGIw_SfPWN8RI0IUnfCpkG-xNXmjgcIK_yZ27yaDleAvsBbW4vF9hwxH56WjH1-rEaMOyWMgsqFIXcASQmnv2lCAtES3F-KsWKqJzDfdnUd6U3yHH4pv5N21K3fvAlzqoWrWCWALiXH2T7R2s2gYOUacqVjeysexq-bFqu_zozCIKNEZ8mmU0BZNUuY7cfCh96V84gQ99C6UmmVJPVJlkdhP9KCVb1G5btqkkRsMd0LTrRZ_YfVnEBaAjfoEqDC7kGC8XHw9w8J341MK319uEbqgWVYwp-KmSWzWeUN86bkSC4oZRdCH9bIiMQWx7xIQ1qVgvHN1rrQJ8i9Q7NrX7DWkbDrAmrXHxI0bMlO6eyFq2gICGKpVxanWGCv-sB7M1gzltrUwjfQNdV7IgrkX29XS5uVBwAeoYH-pyW9j0gMLG2B6rcn0vgBZ-9zoazXR5n6mM2WH6l1kx21QWUd2ZSNiWkZ4jGzmlni08TVGw6CvChuF1aBVx2Jgrwu9FwUWwh_y2z2STtIkmG2X0bdJOJukSV6E8JL9f8dZ7Udw8hxKDjICrviJ8j_9RzjoeHaCgDxNoTwn-zbx2h7UM0go4P4i7ZQPFoqsVv-kFIRAnqQVN5KubarxQNKuNCw&key=<API_KEY>SyBuSZJklSc1j0D4kqhkJcmyArcZbWujbXQ"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/favorite_event/find_by_all_my_favorite_event": {
+      "get": {
+        "tags": [
+          "favorite_event"
+        ],
+        "summary": "find_by_all_my_favorite_event",
+        "operationId": "favorite_event_find_by_all_my_favorite_event",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "1"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "10"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/favorite_event/delete_my_favorite_event/{id}": {
+      "delete": {
+        "tags": [
+          "favorite_event"
+        ],
+        "summary": "delete_my_favorite_event",
+        "operationId": "favorite_event_delete_my_favorite_event",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "68d817912be7ed5711da7ef5",
+            "description": "ID used by delete_my_favorite_event"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/favorite_event/find_by_specific_my_favorite_event/{id}": {
+      "get": {
+        "tags": [
+          "favorite_event"
+        ],
+        "summary": "find_by_specific_my_favorite_event",
+        "operationId": "favorite_event_find_by_specific_my_favorite_event",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "68d817912be7ed5711da7ef5",
+            "description": "ID used by find_by_specific_my_favorite_event"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/memories_event/memories_post_event": {
+      "post": {
+        "tags": [
+          "memories_event"
+        ],
+        "summary": "memories_event",
+        "operationId": "memories_event_memories_event",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "data": {
+                    "type": "string",
+                    "description": "JSON string",
+                    "example": "{\n  \"favoriteeventId\": \"68d817912be7ed5711da7ef5\",\n  \"content\": \"Had an amazing time at the event!\",\n  \"contentType\": \"video\",\n  \"description\": \"This photo was taken during the main performance.\"\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/memories_event/find_my_upload_memories_event": {
+      "get": {
+        "tags": [
+          "memories_event"
+        ],
+        "summary": "find_my_upload_memories_event",
+        "operationId": "memories_event_find_my_upload_memories_event",
+        "parameters": [
+          {
+            "name": "contentType",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "photo"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/memories_event/love_eemoji_memories_event_count": {
+      "post": {
+        "tags": [
+          "memories_event"
+        ],
+        "summary": "love_eemoji_memories_event_count",
+        "operationId": "memories_event_love_eemoji_memories_event_count",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "uploadMemorieSeventId": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "uploadMemorieSeventId": "68edab1ce99d07c56e32f710"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reports/report_recording": {
+      "post": {
+        "tags": [
+          "reports"
+        ],
+        "summary": "report_recording",
+        "operationId": "reports_report_recording",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "data": {
+                    "type": "string",
+                    "description": "JSON string",
+                    "example": "{\n  \"category\": \"Traffic\",\n  \"description\": \"Heavy traffic jam near the main highway.\",\n  \"location\": \"Dhaka, Bangladesh\"\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reports/delete_report/{id}": {
+      "delete": {
+        "tags": [
+          "reports"
+        ],
+        "summary": "delete_report",
+        "operationId": "reports_delete_report",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "68d869d1d557b8d8c4bbceef",
+            "description": "ID used by delete_report"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/reports/report_like": {
+      "post": {
+        "tags": [
+          "reports"
+        ],
+        "summary": "report_like",
+        "operationId": "reports_report_like",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "reportId": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "reportId": "68d869cdd557b8d8c4bbceeb"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/followup/recorded_followup": {
+      "post": {
+        "tags": [
+          "followup"
+        ],
+        "summary": "recorded_followup",
+        "operationId": "followup_recorded_followup",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "followupId": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "followupId": "68c0936b87afe71dc986f4ad"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/followup/find_by_my_event_social_feed": {
+      "get": {
+        "tags": [
+          "followup"
+        ],
+        "summary": "find_by_my_event_social_feed",
+        "operationId": "followup_find_by_my_event_social_feed",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "1"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "20"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/followup/find_my_followed_list": {
+      "get": {
+        "tags": [
+          "followup"
+        ],
+        "summary": "find_my_followed_list",
+        "operationId": "followup_find_my_followed_list",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/followup/find_my_following_and_followed_list/{id}": {
+      "get": {
+        "tags": [
+          "followup"
+        ],
+        "summary": "find_my_following_and_followed_list",
+        "operationId": "followup_find_my_following_and_followed_list",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "68c0936b87afe71dc986f4ad",
+            "description": "ID used by find_my_following_and_followed_list"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/followup/send_invitasation_notification": {
+      "post": {
+        "tags": [
+          "followup"
+        ],
+        "summary": "send_invitasation_notification",
+        "operationId": "followup_send_invitasation_notification",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "content": {
+                    "type": "string"
+                  },
+                  "invitasationList": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "senderId": {
+                    "type": "string"
+                  },
+                  "groupId": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "title": "Meeting Reminder",
+                "content": "Don’t forget the client meeting tomorrow.",
+                "invitasationList": [
+                  "68dc34d40809941ba052c9ff",
+                  "68c9e08fb2e27952f4192c3e"
+                ],
+                "senderId": "68c0936b87afe71dc986f4ad",
+                "groupId": ""
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/followup/find_my_following_list": {
+      "get": {
+        "tags": [
+          "followup"
+        ],
+        "summary": "find_my_following_list",
+        "operationId": "followup_find_my_following_list",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/followup/delete_follower_list/{id}": {
+      "delete": {
+        "tags": [
+          "followup"
+        ],
+        "summary": "delete_follower_list",
+        "operationId": "followup_delete_follower_list",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "690ba84e432ae05424cb7d27",
+            "description": "ID used by delete_follower_list"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/followup/user_block": {
+      "patch": {
+        "tags": [
+          "followup"
+        ],
+        "summary": "user_block",
+        "operationId": "followup_user_block",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "blockedUserId": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "blockedUserId": "68c9e08fb2e27952f4192c3e"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/followup/blocked-users": {
+      "get": {
+        "tags": [
+          "followup"
+        ],
+        "summary": "user_block list",
+        "operationId": "followup_user_block_list",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/followup/is_book_user": {
+      "get": {
+        "tags": [
+          "followup"
+        ],
+        "summary": "is_book_user",
+        "operationId": "followup_is_book_user",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "68c0936b87afe71dc986f4ad"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "description": "Block status between you and ?userId. Returns { isBlock, isBlockedByMe, hasBlockedMe }.",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/social_feed_route/delete_social_feed/{id}": {
+      "delete": {
+        "tags": [
+          "followup"
+        ],
+        "summary": "delete_social_feed",
+        "operationId": "followup_delete_social_feed",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "699108a15066020815d602f6",
+            "description": "ID used by delete_social_feed"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "eventpostId": {
+                    "type": "string"
+                  },
+                  "eventId": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "eventpostId": "68d98a7de5736e89b3987fbe",
+                "eventId": "68c74468f65d8cfd94cff090"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/join_group/find_by_all_event_group": {
+      "get": {
+        "tags": [
+          "user_group_and_chatromm"
+        ],
+        "summary": "find_by_user_join_event_Group",
+        "operationId": "user_group_and_chatromm_find_by_user_join_event_Group",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/event_chat_room/find_by_event_chat_room": {
+      "get": {
+        "tags": [
+          "user_group_and_chatromm"
+        ],
+        "summary": "find_by_event_chat_room",
+        "operationId": "user_group_and_chatromm_find_by_event_chat_room",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "2"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "5"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/event/find_by_all_live_event_filtering": {
+      "get": {
+        "tags": [
+          "user_group_and_chatromm"
+        ],
+        "summary": "find_by_all_live_event_filtering",
+        "operationId": "user_group_and_chatromm_find_by_all_live_event_filtering",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "1"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "10"
+          },
+          {
+            "name": "searchTerm",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "live"
+          },
+          {
+            "name": "eventDate",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "08-03-2026"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/event/find_by_all_upcomming_and_past_event": {
+      "get": {
+        "tags": [
+          "user_group_and_chatromm"
+        ],
+        "summary": "find_by_all_upcomming_and_past_event",
+        "operationId": "user_group_and_chatromm_find_by_all_upcomming_and_past_event",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "1"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "10"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/event_social_post/live_event_comment": {
+      "post": {
+        "tags": [
+          "user_group_and_chatromm"
+        ],
+        "summary": "live_event_comment",
+        "operationId": "user_group_and_chatromm_live_event_comment",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "eventId": {
+                    "type": "string"
+                  },
+                  "comments": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "eventId": "68d5cbd46429d7ffa1741004",
+                "comments": " live event "
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/event_social_post/live_event_emoji": {
+      "post": {
+        "tags": [
+          "user_group_and_chatromm"
+        ],
+        "summary": "live_event_emoji",
+        "operationId": "user_group_and_chatromm_live_event_emoji",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "eventId": {
+                    "type": "string"
+                  },
+                  "emoji": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "eventId": "68e0560be9a09bfb75cd4540",
+                "emoji": "🔥 "
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/event_social_post/find_by_specific_live_emoji/{id}": {
+      "get": {
+        "tags": [
+          "user_group_and_chatromm"
+        ],
+        "summary": "live_event_emoji",
+        "operationId": "user_group_and_chatromm_live_event_emoji_",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "68e0560be9a09bfb75cd4540",
+            "description": "ID used by find_by_specific_live_emoji"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/event_social_post/find_by_specific_live_comment/{id}": {
+      "get": {
+        "tags": [
+          "user_group_and_chatromm"
+        ],
+        "summary": "findSpecificByLiveEvent",
+        "operationId": "user_group_and_chatromm_findSpecificByLiveEvent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "68daf7e6bd41e2c1bb33b48d",
+            "description": "ID used by find_by_specific_live_comment"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/event_social_post/delete_live_commend/{id}": {
+      "delete": {
+        "tags": [
+          "user_group_and_chatromm"
+        ],
+        "summary": "deleteLiveCommend",
+        "operationId": "user_group_and_chatromm_deleteLiveCommend",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "68e5511f0bcc15e02a3e3e8c",
+            "description": "ID used by delete_live_commend"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/join_group/find_my_join_group": {
+      "get": {
+        "tags": [
+          "user_group_and_chatromm"
+        ],
+        "summary": "find_my_join_group",
+        "operationId": "user_group_and_chatromm_find_my_join_group",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "1"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "10"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/event_chat_room/my_event_chatroom": {
+      "get": {
+        "tags": [
+          "user_group_and_chatromm"
+        ],
+        "summary": "my_event_chatroom",
+        "operationId": "user_group_and_chatromm_my_event_chatroom",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "1"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "1"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/payment/payment_onboarding": {
+      "post": {
+        "tags": [
+          "payment"
+        ],
+        "summary": "payment_onboarding",
+        "operationId": "payment_payment_onboarding",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "amount": {
+                    "type": "integer"
+                  },
+                  "currency": {
+                    "type": "string"
+                  },
+                  "itemName": {
+                    "type": "string"
+                  },
+                  "itemDescription": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "amount": 100,
+                "currency": "USD",
+                "itemName": "Node.js Complete Course",
+                "itemDescription": "Node.js Complete Course with Express and MongoDB"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/payment/create-checkout-session": {
+      "post": {
+        "tags": [
+          "payment"
+        ],
+        "summary": "create-checkout-session",
+        "operationId": "payment_create_checkout_session",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "price": {
+                    "type": "integer"
+                  },
+                  "eventId": {
+                    "type": "string"
+                  },
+                  "ticketCount": {
+                    "type": "integer"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "price": 10,
+                "eventId": "68bca043cfbd979def35b32b",
+                "ticketCount": 1,
+                "description": "the subscription buy the sohel rana "
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/payment/create-onboarding-link": {
+      "get": {
+        "tags": [
+          "payment"
+        ],
+        "summary": "payment-onboarding",
+        "operationId": "payment_payment_onboarding_",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/payment/find_my_payment_history": {
+      "get": {
+        "tags": [
+          "payment"
+        ],
+        "summary": "find_my_payment_history",
+        "operationId": "payment_find_my_payment_history",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/payment/completed_event_past_list": {
+      "get": {
+        "tags": [
+          "payment"
+        ],
+        "summary": "completed_event_past_list",
+        "operationId": "payment_completed_event_past_list",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "1"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "10"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/payment/is_live_event_payment_exist/{id}": {
+      "get": {
+        "tags": [
+          "payment"
+        ],
+        "summary": "is_live_event_payment_exist",
+        "operationId": "payment_is_live_event_payment_exist",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "694991b1d360c719fcaee73c",
+            "description": "ID used by is_live_event_payment_exist"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/payment/verify_checkout_session/{sessionId}": {
+      "get": {
+        "tags": [
+          "payment"
+        ],
+        "summary": "verify_checkout_session",
+        "operationId": "payment_verify_checkout_session",
+        "parameters": [
+          {
+            "name": "sessionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Stripe Checkout Session id (from the success redirect)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "description": "Call from the Ticket confirmed screen with the sessionId from the Stripe success redirect. Confirms the payment with Stripe and records it as paid.",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/conversation/get-chat-list": {
+      "get": {
+        "tags": [
+          "Conversation"
+        ],
+        "summary": "get-chat-list",
+        "operationId": "Conversation_get_chat_list",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/conversation/specific_event_wise_conversation/{id}": {
+      "get": {
+        "tags": [
+          "Conversation"
+        ],
+        "summary": "group_message_list",
+        "operationId": "Conversation_group_message_list",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "68daf7e5bd41e2c1bb33b47d",
+            "description": "ID used by specific_event_wise_conversation"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/conversation/get_single_conversation": {
+      "get": {
+        "tags": [
+          "Conversation"
+        ],
+        "summary": "get_single_conversation",
+        "operationId": "Conversation_get_single_conversation",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/conversation/get_group_conversation/{id}": {
+      "get": {
+        "tags": [
+          "Conversation"
+        ],
+        "summary": "get_group_conversation",
+        "operationId": "Conversation_get_group_conversation",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "68f00708ec3820cae715b7df",
+            "description": "ID used by get_group_conversation"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/auth/dashboard_count": {
+      "get": {
+        "tags": [
+          "admin-dashboard"
+        ],
+        "summary": "dashboard_count",
+        "operationId": "admin_dashboard_dashboard_count",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/auth/user_graph": {
+      "get": {
+        "tags": [
+          "admin-dashboard"
+        ],
+        "summary": "user_graph",
+        "operationId": "admin_dashboard_user_graph",
+        "parameters": [
+          {
+            "name": "year",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "2025"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/event/get_event_growth": {
+      "get": {
+        "tags": [
+          "admin-dashboard"
+        ],
+        "summary": "get_event_growth",
+        "operationId": "admin_dashboard_get_event_growth",
+        "parameters": [
+          {
+            "name": "year",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "2025"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/event/find_by_all_event": {
+      "get": {
+        "tags": [
+          "admin-dashboard"
+        ],
+        "summary": "find_by_all_event",
+        "operationId": "admin_dashboard_find_by_all_event",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/join_group/find_by_all_join_eventgroup": {
+      "get": {
+        "tags": [
+          "admin-dashboard"
+        ],
+        "summary": "find_by_all_join_eventgroup done",
+        "operationId": "admin_dashboard_find_by_all_join_eventgroup_done",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "6"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "10"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/event_chat_room/find_by_all_event_chatroom": {
+      "get": {
+        "tags": [
+          "admin-dashboard"
+        ],
+        "summary": "find_by_all_event_chatroom",
+        "operationId": "admin_dashboard_find_by_all_event_chatroom",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/social_feed_report/find_by_all_social_feed_report": {
+      "get": {
+        "tags": [
+          "admin-dashboard"
+        ],
+        "summary": "find_by_all_social_feed_report",
+        "operationId": "admin_dashboard_find_by_all_social_feed_report",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/social_feed_report/delete_social_feed_report/{id}": {
+      "delete": {
+        "tags": [
+          "admin-dashboard"
+        ],
+        "summary": "delete_social_feed_report",
+        "operationId": "admin_dashboard_delete_social_feed_report",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "68f53344814c7e648b6cfb29",
+            "description": "ID used by delete_social_feed_report"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/event/admin_delete_event/{id}": {
+      "delete": {
+        "tags": [
+          "admin-dashboard"
+        ],
+        "summary": "admin_delete_event",
+        "operationId": "admin_dashboard_admin_delete_event",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "68d5c3b01e52c7604bef9b66",
+            "description": "ID used by admin_delete_event"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "email": "user@example.com",
+                "password": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/notification/sendPushNotification": {
+      "post": {
+        "tags": [
+          "notification"
+        ],
+        "summary": "sendPushNotification",
+        "operationId": "notification_sendPushNotification",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "content": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "title": "Meeting Reminder",
+                "content": "Don’t forget the client meeting tomorrow."
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/notification/specific_user_notification_list": {
+      "get": {
+        "tags": [
+          "notification"
+        ],
+        "summary": "specific_user_notification_list",
+        "operationId": "notification_specific_user_notification_list",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/notification/find_my_notification": {
+      "get": {
+        "tags": [
+          "notification"
+        ],
+        "summary": "find_my_notification",
+        "operationId": "notification_find_my_notification",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/notification/change_notification_status": {
+      "patch": {
+        "tags": [
+          "notification"
+        ],
+        "summary": "chnage_notification_status",
+        "operationId": "notification_chnage_notification_status",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "notificationId": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "notificationId": "6935bafe22f2f31c8d28cf3d"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/notification/mark_as_read/{id}": {
+      "patch": {
+        "tags": [
+          "notification"
+        ],
+        "summary": "mark_as_read",
+        "operationId": "notification_mark_as_read",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "6af2a1042c950c948c97ec7a",
+            "description": "ID used by mark_as_read"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "description": "Mark one notification as read (call when the user taps it).",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/notification/mark_all_as_read": {
+      "patch": {
+        "tags": [
+          "notification"
+        ],
+        "summary": "mark_all_as_read",
+        "operationId": "notification_mark_all_as_read",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "description": "Mark all of the current user's notifications as read.",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/message/find_by_specific_conversation/{id}": {
+      "get": {
+        "tags": [
+          "message"
+        ],
+        "summary": "find_by_specific_conversation",
+        "operationId": "message_find_by_specific_conversation",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "69ac7cf3987b6e625af53ab6",
+            "description": "ID used by find_by_specific_conversation"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/message/new_message": {
+      "post": {
+        "tags": [
+          "message"
+        ],
+        "summary": "send_message",
+        "operationId": "message_send_message",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "string",
+                    "description": "JSON string",
+                    "example": "{\n  \"text\": \"okay i am sohel rana 448 ?\",\n  \"storyUrl\": \"src/public/images/18-9089dcc1-a151-46c8-993e-a9c190fad284.jpg\",\n  \"receiverId\": \"68dc34d40809941ba052c9ff\"\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/message/delete_message/{id}": {
+      "delete": {
+        "tags": [
+          "message"
+        ],
+        "summary": "delete_message",
+        "operationId": "message_delete_message",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "68f5269321ef9bc1bcd919d7",
+            "description": "ID used by delete_message"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/message/update_message_by_Id/{messageId}": {
+      "patch": {
+        "tags": [
+          "message"
+        ],
+        "summary": "update_message_by_Id",
+        "operationId": "message_update_message_by_Id",
+        "parameters": [
+          {
+            "name": "messageId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID used by update_message_by_Id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data ": {
+                    "type": "string",
+                    "description": "JSON string",
+                    "example": "{\n  \"text\": \"okay ?\",\n  \"eventId\": \"6713bc85d4a2e25c347ab3f9\",\n  \"receiverId\": \"68b71e270256ddb0b89dd214\"\n}"
+                  },
+                  "imageUrl": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/message/single_new_message": {
+      "post": {
+        "tags": [
+          "message"
+        ],
+        "summary": "single_new_message",
+        "operationId": "message_single_new_message",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "string",
+                    "description": "JSON string",
+                    "example": "{\n  \"text\": \"i am sohel rana \",\n  \"receiverId\": \"68b76fca5941636d3fb7dfd1\",\n  \"singlechat\": \"singlechat\"\n}"
+                  },
+                  "imageUrl": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/social_feed_report/recorded_report": {
+      "post": {
+        "tags": [
+          "social_feed_report"
+        ],
+        "summary": "recorded_report",
+        "operationId": "social_feed_report_recorded_report",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "event_postId": {
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "details": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "event_postId": "68ed4c55c518ede42a47b0a3",
+                "reason": "where are you reporting this post?",
+                "details": "the quick brown fox jumps over wherhjgqaw"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/point_system/my_avg_point": {
+      "get": {
+        "tags": [
+          "point_system"
+        ],
+        "summary": "my_avg_point",
+        "operationId": "point_system_my_avg_point",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/rating/record_rating_event": {
+      "post": {
+        "tags": [
+          "rating"
+        ],
+        "summary": "record_rating_event",
+        "operationId": "rating_record_rating_event",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "eventId": {
+                    "type": "string"
+                  },
+                  "rating": {
+                    "type": "integer"
+                  }
+                }
+              },
+              "example": {
+                "eventId": "68c74468f65d8cfd94cff090",
+                "rating": 4
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/support/contact": {
+      "post": {
+        "tags": [
+          "support"
+        ],
+        "summary": "contact",
+        "operationId": "support_contact",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "subject": {
+                    "type": "string"
+                  },
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "name": "Md Sohel Rana",
+                "email": "user@example.com",
+                "subject": "App Login Issue",
+                "message": "I am unable to log into my account. Please help resolve this issue."
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/support/find_by_all_issues": {
+      "get": {
+        "tags": [
+          "support"
+        ],
+        "summary": "find_by_all_issues",
+        "operationId": "support_find_by_all_issues",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/support/delete_support/{id}": {
+      "delete": {
+        "tags": [
+          "support"
+        ],
+        "summary": "delete_support",
+        "operationId": "support_delete_support",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "69cace43e5cf7647b410e580",
+            "description": "ID used by delete_support"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "subject": {
+                    "type": "string"
+                  },
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "name": "Md Sohel Rana",
+                "email": "user@example.com",
+                "subject": "App Login Issue",
+                "message": "I am unable to log into my account. Please help resolve this issue."
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/support/resolve_issues/{id}": {
+      "patch": {
+        "tags": [
+          "support"
+        ],
+        "summary": "resolve_issues",
+        "operationId": "support_resolve_issues",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "69cad7ae7ee961e79e636bb0",
+            "description": "ID used by resolve_issues"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "isSolve": {
+                    "type": "boolean"
+                  }
+                }
+              },
+              "example": {
+                "isSolve": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/store_react/record_store_react": {
+      "post": {
+        "tags": [
+          "store_react"
+        ],
+        "summary": "record_store_react",
+        "operationId": "store_react_record_store_react",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "storeId": {
+                    "type": "string"
+                  },
+                  "isReact": {
+                    "type": "boolean"
+                  }
+                }
+              },
+              "example": {
+                "storeId": "69d15d15ed8792326c24297d",
+                "isReact": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/store_react/find_my_all_store_reacts/{id}": {
+      "get": {
+        "tags": [
+          "store_react"
+        ],
+        "summary": "find_my_all_store_reacts",
+        "operationId": "store_react_find_my_all_store_reacts",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "69d15d3ded8792326c24299f",
+            "description": "ID used by find_my_all_store_reacts"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/store_react/delete_store_react/{id}": {
+      "delete": {
+        "tags": [
+          "store_react"
+        ],
+        "summary": "delete_store_react",
+        "operationId": "store_react_delete_store_react",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "69d15d3ded8792326c24299f",
+            "description": "ID used by delete_store_react"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/v1/point_system/recorded_point_system": {
+      "post": {
+        "tags": [
+          "misc"
+        ],
+        "summary": "recorded_point_system",
+        "operationId": "misc_recorded_point_system",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "eventId": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "eventId": "68c74468f65d8cfd94cff090"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

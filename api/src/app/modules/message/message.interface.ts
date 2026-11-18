@@ -1,0 +1,27 @@
+import { Types } from 'mongoose';
+
+export interface IMessage {
+  text: string;
+  imageUrl: string[];
+  audioUrl: string;
+  seen: boolean;
+  storyUrl:string;
+  sharedPostId?: Types.ObjectId;
+  msgByUserId: Types.ObjectId;
+  conversationId: Types.ObjectId;
+}
+
+export interface NewMessagePayload {
+  receiverId: string;
+  eventId:string;
+  text: string;
+  imageUrl?: string[];
+  audioUrl?: string;
+  sharedPostId?: string;
+  chat?:"singlechat" | "groupchat"
+}
+
+export interface MulterRequest extends Request {
+  files?: Express.Multer.File[]; // or a dictionary if using `.fields()`
+  file?: Express.Multer.File;    // for single file via `.single()`
+}

@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+backups/
+*.log
+.DS_Store
+api/angel-backend.postman_collection.json
