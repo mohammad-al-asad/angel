@@ -1,4 +1,5 @@
-import { FaChevronDown, FaUsers, FaVideo } from "react-icons/fa";
+import { FaCalendarCheck, FaChevronDown, FaFlag, FaRegCommentDots, FaUserSlash, FaUsers, FaVideo } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import dayjs from "dayjs";
 import RecentUsers from "./RecentUsers";
@@ -31,64 +32,46 @@ function DashboardPage() {
     setter(false);
   };
 
+  const counts = dashboardData?.data || {};
+  const statCards = [
+    { label: "Total Host", value: counts.totalHost, icon: FaUsers },
+    { label: "Total Thrillseekers", value: counts.totalThrillseekers, icon: FaUsers },
+    { label: "Total Events", value: counts.totalEvent, icon: FaVideo },
+    { label: "Upcoming Events", value: counts.totalUpcomingEvent, icon: FaCalendarCheck },
+    { label: "Blocked Accounts", value: counts.totalBlockAccount, icon: FaUserSlash },
+    { label: "Open Feedback", value: counts.openFeedback, icon: FaRegCommentDots, to: "/feedback" },
+    { label: "Reports to Review", value: counts.reportsToReview, icon: FaFlag, to: "/reports" },
+  ];
+
   if (isLoading) return <div className="p-5">Loading dashboard data...</div>;
   if (isError) return <div className="p-5 text-red-500">Error loading dashboard data</div>;
 
   return (
     <div className="flex flex-col">
       <div className="grid grid-cols-1 md:grid-cols-2 mmd:grid-cols-3 lg:grid-cols-4 gap-5">
-        {/* Total Host */}
-        <div className="flex justify-between items-center p-5 bg-[#F2F2F2]  gap-5 h-[80px] rounded-lg shadow-md">
-          <div className="flex gap-3 items-center">
-            <p className="rounded-full flex justify-center items-center">
-              <FaUsers
-                size={20}
-                className=" bg-white rounded-full p-2 w-10 h-10 text-[#00c0b5]"
-              />
-            </p>
-            <p className="text-xl font-semibold">Total Host</p>
-          </div>
-          <p className="text-[#00c0b5] text-2xl font-bold mr-10">{dashboardData?.data?.totalHost || 0}</p>
-        </div>
-        {/* Total Dmover */}
-        <div className="flex justify-between items-center p-5 bg-[#F2F2F2]  gap-5 h-[80px] rounded-lg shadow-md">
-          <div className="flex gap-3 items-center">
-            <p className="rounded-full flex justify-center items-center">
-              <FaUsers
-                size={20}
-                className=" bg-white rounded-full p-2 w-10 h-10 text-[#00c0b5]"
-              />
-            </p>
-            <p className="text-xl font-semibold">Total Dmover</p>
-          </div>
-          <p className="text-[#00c0b5] text-2xl font-bold mr-10">{dashboardData?.data?.totalThrillseekers || 0}</p>
-        </div>
-        {/*  Total Total Event */}
-        <div className="flex justify-between items-center p-5 bg-[#F2F2F2] rounded-lg shadow-md gap-5 h-[80px]">
-          <div className="flex gap-3 items-center">
-            <p className="rounded-full flex justify-center items-center">
-              <FaVideo
-                size={20}
-                className=" bg-white rounded-full p-2 w-10 h-10 text-[#00c0b5]"
-              />
-            </p>
-            <p className="text-xl font-semibold">Total Event</p>
-          </div>
-          <p className="text-[#00c0b5] text-2xl font-bold mr-10">{dashboardData?.data?.totalEvent || 0}</p>
-        </div>
-        {/*  Blocked account */}
-        <div className="flex justify-between items-center p-5 bg-[#F2F2F2] rounded-lg shadow-md gap-5 h-[80px]">
-          <div className="flex gap-3 items-center">
-            <p className="rounded-full flex justify-center items-center">
-              <FaVideo
-                size={20}
-                className=" bg-white rounded-full p-2 w-10 h-10 text-[#00c0b5]"
-              />
-            </p>
-            <p className="text-xl font-semibold">Total Blocked Account</p>
-          </div>
-          <p className="text-[#00c0b5] text-2xl font-bold mr-10">{dashboardData?.data?.totalBlockAccount || 0}</p>
-        </div>
+        {statCards.map((card) => {
+          const body = (
+            <div className="flex justify-between items-center p-5 bg-[#F2F2F2] gap-5 h-[80px] rounded-lg shadow-md h-full">
+              <div className="flex gap-3 items-center">
+                <p className="rounded-full flex justify-center items-center">
+                  <card.icon
+                    size={20}
+                    className=" bg-white rounded-full p-2 w-10 h-10 text-[#00c0b5]"
+                  />
+                </p>
+                <p className="text-xl font-semibold">{card.label}</p>
+              </div>
+              <p className="text-[#00c0b5] text-2xl font-bold mr-4">{card.value ?? 0}</p>
+            </div>
+          );
+          return card.to ? (
+            <Link key={card.label} to={card.to} className="hover:opacity-90">
+              {body}
+            </Link>
+          ) : (
+            <div key={card.label}>{body}</div>
+          );
+        })}
       </div>
       <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-5 mt-5">
         <div className="w-full p-5 bg-[#F2F2F2] rounded-lg shadow-md">

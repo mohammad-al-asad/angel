@@ -1,17 +1,56 @@
-import { ConfigProvider, Modal, Table } from "antd";
+import { ConfigProvider, Input, Modal, Select, Table } from "antd";
 import { useState, useEffect } from "react";
 import { IoSearch } from "react-icons/io5";
 import PageHeading from "../../components/PageHeading/PageHeading";
 import { FaRegEye } from "react-icons/fa";
 import { useFindAllSocialFeedReportsQuery } from "../../redux/api/socialReportsApi";
-import { useDeleteSocialFeedReportMutation } from "../../redux/api/socialReportsApi";
+import {
+  useDeleteSocialFeedReportMutation,
+  useUpdateSocialFeedReportStatusMutation,
+} from "../../redux/api/socialReportsApi";
 import { getImageUrl } from "../../config/envConfig";
 import { message } from "antd";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import useDebounce from "../../hooks/useDebounce";
 
+const REPORT_STATUS = {
+  under_review: { label: "Under Review", className: "bg-yellow-100 text-yellow-800" },
+  resolved: { label: "Resolved", className: "bg-green-100 text-green-800" },
+  dismissed: { label: "Dismissed", className: "bg-gray-200 text-gray-700" },
+};
+const STATUS_OPTIONS = Object.entries(REPORT_STATUS).map(([value, s]) => ({ value, label: s.label }));
+const reportStatus = (record) => (REPORT_STATUS[record?.status] ? record.status : "under_review");
+
+// eslint-disable-next-line react/prop-types
+function StatusBadge({ status }) {
+  const s = REPORT_STATUS[status] || REPORT_STATUS.under_review;
+  return (
+    <span className={`px-2 py-1 text-xs font-medium rounded-full ${s.className}`}>{s.label}</span>
+  );
+}
+
 function Reports() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
+  const [reviewStatus, setReviewStatus] = useState("under_review");
+  const [reviewNote, setReviewNote] = useState("");
+  const [updateStatus, { isLoading: isUpdatingStatus }] =
+    useUpdateSocialFeedReportStatusMutation();
+
+  const changeStatus = async (record, status, adminNote) => {
+    try {
+      await updateStatus({ id: record._id, status, adminNote }).unwrap();
+      message.success(
+        status === "under_review"
+          ? "Report moved back to Under Review"
+          : `Report marked ${REPORT_STATUS[status].label}. The reporter has been notified.`
+      );
+      return true;
+    } catch (error) {
+      message.error(error?.data?.message || "Could not update the report status");
+      return false;
+    }
+  };
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 10,
@@ -52,6 +91,7 @@ function Reports() {
     searchTerm: debouncedSearchTerm,
     page: pagination.current,
     limit: pagination.pageSize,
+    status: statusFilter,
   });
 
   useEffect(() => {
@@ -77,7 +117,14 @@ function Reports() {
 
   const showViewModal = (report) => {
     setSelectedReport(report);
+    setReviewStatus(reportStatus(report));
+    setReviewNote(report.adminNote || "");
     setIsViewModalOpen(true);
+  };
+
+  const saveReview = async () => {
+    const ok = await changeStatus(selectedReport, reviewStatus, reviewNote.trim());
+    if (ok) handleViewCancel();
   };
 
   const handleViewCancel = () => {
@@ -160,10 +207,17 @@ function Reports() {
     {
       title: "Status",
       key: "status",
-      render: () => (
-        <span className="px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">
-          Under Review
-        </span>
+      render: (_, record) => (
+        <Select
+          size="small"
+          value={reportStatus(record)}
+          onChange={(value) => changeStatus(record, value)}
+          disabled={isUpdatingStatus}
+          options={STATUS_OPTIONS}
+          className="min-w-[140px]"
+          optionRender={(option) => <StatusBadge status={option.value} />}
+          labelRender={({ value }) => <StatusBadge status={value} />}
+        />
       ),
     },
     {
@@ -205,6 +259,17 @@ function Reports() {
     <div>
       <div className="my-5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <PageHeading title="Reports" />
+        <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+        <Select
+          value={statusFilter}
+          onChange={(value) => {
+            setStatusFilter(value);
+            setPagination((prev) => ({ ...prev, current: 1 }));
+          }}
+          options={[{ value: "", label: "All statuses" }, ...STATUS_OPTIONS]}
+          className="w-full sm:w-[160px]"
+          size="large"
+        />
         <div className="relative w-full sm:w-[300px]">
           <input
             type="text"
@@ -216,6 +281,7 @@ function Reports() {
           <span className="text-gray-500 absolute top-0 left-0 h-full px-3 flex items-center justify-center cursor-pointer">
             <IoSearch className="text-[1.3rem]" />
           </span>
+        </div>
         </div>
       </div>
 
@@ -379,11 +445,36 @@ function Reports() {
                   <p>{new Date(selectedReport.createdAt).toLocaleString()}</p>
                 </div>
                 <div>
-                  <h3 className="font-medium text-gray-700 mb-1">Status</h3>
-                  <span className="px-3 py-1 text-sm font-medium rounded-full bg-yellow-100 text-yellow-800">
-                    Under Review
-                  </span>
+                  <h3 className="font-medium text-gray-700 mb-1">Current status</h3>
+                  <StatusBadge status={reportStatus(selectedReport)} />
+                  {selectedReport.reviewedAt && (
+                    <p className="text-xs text-gray-500 mt-1">
+                      Reviewed {new Date(selectedReport.reviewedAt).toLocaleString()}
+                    </p>
+                  )}
                 </div>
+              </div>
+
+              {/* Review */}
+              <div className="bg-gray-50 p-4 rounded-lg space-y-3">
+                <h3 className="font-medium text-gray-700">Review this report</h3>
+                <Select
+                  value={reviewStatus}
+                  onChange={setReviewStatus}
+                  options={STATUS_OPTIONS}
+                  className="w-full sm:w-[220px]"
+                />
+                <Input.TextArea
+                  value={reviewNote}
+                  onChange={(e) => setReviewNote(e.target.value)}
+                  maxLength={500}
+                  showCount
+                  rows={3}
+                  placeholder="Optional note for the reporter, e.g. 'The post was removed.'"
+                />
+                <p className="text-xs text-gray-500">
+                  The reporter gets a notification when you mark the report Resolved or Dismissed.
+                </p>
               </div>
             </div>
 
@@ -395,7 +486,13 @@ function Reports() {
               >
                 Close
               </button>
-             
+              <button
+                onClick={saveReview}
+                disabled={isUpdatingStatus}
+                className="px-6 py-2 rounded-lg bg-[#00c0b5] text-white hover:bg-[#00a89b] transition-colors font-medium disabled:opacity-60"
+              >
+                {isUpdatingStatus ? "Saving..." : "Save review"}
+              </button>
             </div>
           </div>
         )}

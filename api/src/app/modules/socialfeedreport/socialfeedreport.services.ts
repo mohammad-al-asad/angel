@@ -4,6 +4,9 @@ import socialfeedreports from "./socialfeedreport.model";
 import eventposts from "../event_post/event_post.model";
 import { TSocialFeedReport } from "./socialfeedreport.interface";
 import QueryBuilder from "../../builder/QueryBuilder";
+import { Types } from "mongoose";
+import NotificationServices from "../notification/notification.services";
+import { NotificationType } from "../notification/notification.constant";
 
 
 const recordedSocialFeedReportIntoDb=async(userId:string, payload:TSocialFeedReport)=>{
@@ -26,6 +29,7 @@ const recordedSocialFeedReportIntoDb=async(userId:string, payload:TSocialFeedRep
 
       }
       catch(error:any){
+        if (error instanceof AppError) throw error;
         throw new AppError(status.SERVICE_UNAVAILABLE, 'ISSUES BY THE recorded Social FeedReport IntoDb')
       }
 };
@@ -100,10 +104,81 @@ const deleteSocialFeedReportIntoDb=async(id:string)=>{
 }
 
 
+// Admin reviews a report: update its status and tell the reporter
+const updateSocialFeedReportStatusIntoDb = async (
+  id: string,
+  adminId: string,
+  payload: { status: "under_review" | "resolved" | "dismissed"; adminNote?: string }
+) => {
+  if (!Types.ObjectId.isValid(id)) {
+    throw new AppError(status.BAD_REQUEST, "Invalid report id", "");
+  }
+  const existing: any = await socialfeedreports.findOne({ _id: id }).lean();
+  if (!existing) {
+    throw new AppError(status.NOT_FOUND, "Report not found", "");
+  }
+
+  const reviewed = payload.status !== "under_review";
+  const update: Record<string, unknown> = {
+    status: payload.status,
+    reviewedAt: reviewed ? new Date() : null,
+    reviewedBy: reviewed ? adminId : null,
+  };
+  if (payload.adminNote !== undefined) update.adminNote = payload.adminNote;
+
+  const result = await socialfeedreports.findByIdAndUpdate(id, { $set: update }, { new: true });
+
+  // Tell the reporter when the outcome changes to resolved / dismissed
+  if (reviewed && (existing.status || "under_review") !== payload.status) {
+    const outcome =
+      payload.status === "resolved"
+        ? "We reviewed your report and took action. Thank you for helping keep Thrillio safe."
+        : "We reviewed your report and found it does not break our community guidelines.";
+    try {
+      await NotificationServices.createAndSendNotification({
+        userId: new Types.ObjectId(String(existing.userId)),
+        title: payload.status === "resolved" ? "Report resolved" : "Report reviewed",
+        content: payload.adminNote ? `${outcome} Note: ${payload.adminNote}` : outcome,
+        type: NotificationType.report_update,
+        eventpostId: existing.event_postId,
+      });
+    } catch (notifyError: any) {
+      console.error("Report status notification failed:", notifyError?.message || notifyError);
+    }
+  }
+
+  return result;
+};
+
+// App: the reports the current user filed, newest first
+const findMySocialFeedReportsIntoDb = async (userId: string, query: Record<string, unknown>) => {
+  const reportQuery = new QueryBuilder(
+    socialfeedreports
+      .find({ userId })
+      .select("event_postId reason details status adminNote reviewedAt createdAt")
+      .populate({
+        path: "event_postId",
+        select: "caption content userId",
+        populate: { path: "userId", select: "name photo" },
+      }),
+    query
+  )
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+
+  const reports = await reportQuery.modelQuery;
+  const meta = await reportQuery.countTotal();
+  return { meta, reports };
+};
+
 const socialFeedReportServices={
      recordedSocialFeedReportIntoDb,
      findByAllSocialFeedReportIntoDb,
-     deleteSocialFeedReportIntoDb
+     deleteSocialFeedReportIntoDb,
+     updateSocialFeedReportStatusIntoDb,
+     findMySocialFeedReportsIntoDb
 };
 
 export default socialFeedReportServices

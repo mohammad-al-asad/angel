@@ -31,5 +31,7 @@ export const baseApi = createApi({
     "city",
     "categories",
     "auth",
+    "socialFeedReport",
+    "feedback",
   ],
 });

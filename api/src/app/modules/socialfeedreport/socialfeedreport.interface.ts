@@ -7,6 +7,10 @@ export interface TSocialFeedReport {
     event_postId:Types.ObjectId;
     reason:string;
     details:string;
+    status?: "under_review" | "resolved" | "dismissed";
+    adminNote?: string;
+    reviewedAt?: Date;
+    reviewedBy?: Types.ObjectId;
     isDelete:boolean;
 };
 

@@ -9,10 +9,10 @@ const route=express.Router();
 
 route.post("/contact", auth(USER_ROLE.thrillseekers,  USER_ROLE.host),validationRequest(SupportValidation.createSupportValidationSchema), SupportController.sendSupportMessage );
 
-route.get("/find_by_all_issues", SupportController.findByAllSupportAdmin);
+route.get("/find_by_all_issues", auth(USER_ROLE.admin, USER_ROLE.superAdmin), SupportController.findByAllSupportAdmin);
 
-route.delete("/delete_support/:id", SupportController.deleteSupport);
-route.patch("/resolve_issues/:id", validationRequest(SupportValidation.supportIssuesSchema),SupportController.solveSupportIssues);
+route.delete("/delete_support/:id", auth(USER_ROLE.admin, USER_ROLE.superAdmin), SupportController.deleteSupport);
+route.patch("/resolve_issues/:id", auth(USER_ROLE.admin, USER_ROLE.superAdmin), validationRequest(SupportValidation.supportIssuesSchema),SupportController.solveSupportIssues);
 
 
 

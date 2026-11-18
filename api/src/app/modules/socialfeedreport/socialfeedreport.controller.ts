@@ -48,10 +48,32 @@ const  deleteSocialFeedReport:RequestHandler=catchAsync(async(req , res)=>{
 
 
 
+const updateSocialFeedReportStatus:RequestHandler=catchAsync(async(req , res)=>{
+  const result=await socialFeedReportServices.updateSocialFeedReportStatusIntoDb(req.params.id as string, req.user.id, req.body);
+  sendResponse(res, {
+    success: true,
+    statusCode: status.OK,
+    message: "Report status updated",
+    data: result,
+  });
+});
+
+const findMySocialFeedReports:RequestHandler=catchAsync(async(req , res)=>{
+  const result=await socialFeedReportServices.findMySocialFeedReportsIntoDb(req.user.id, req.query);
+  sendResponse(res, {
+    success: true,
+    statusCode: status.OK,
+    message: "Successfully found my reports",
+    data: result,
+  });
+});
+
 const socialFeedReportController={
   recordedSocialFeedReport  ,
   findByAllSocialFeedReport,
-  deleteSocialFeedReport
+  deleteSocialFeedReport,
+  updateSocialFeedReportStatus,
+  findMySocialFeedReports
 };
 
 export default socialFeedReportController;

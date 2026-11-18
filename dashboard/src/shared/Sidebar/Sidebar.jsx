@@ -9,7 +9,7 @@ import {
 } from "react-icons/io5";
 import { RxDashboard } from "react-icons/rx";
 import { MdOutlineEventNote, MdOutlinePrivacyTip } from "react-icons/md";
-import { TbBrandWechat, TbReport } from "react-icons/tb";
+import { TbBrandWechat, TbMessageReport, TbReport } from "react-icons/tb";
 import { LuUsers } from "react-icons/lu";
 import { TiMediaFastForwardOutline } from "react-icons/ti";
 import { Modal } from "antd";
@@ -167,6 +167,18 @@ const Sidebar = ({ isOpen, toggleSidebar, closeSidebar }) => {
           >
             <TbReport className="w-5 h-5 text-lg font-semibold" />
             <p className="text-lg font-semibold">Reports</p>
+          </li>
+        </Link>
+        <Link to="/feedback" onClick={closeSidebar}>
+          <li
+            className={`flex items-center gap-2 mt-5 cursor-pointer transition-all duration-300 ease-in-out ${
+              isActive("/feedback")
+                ? "bg-[#89D0C9] text-white px-3 py-3 rounded-lg"
+                : ""
+            }`}
+          >
+            <TbMessageReport className="w-5 h-5 text-lg font-semibold" />
+            <p className="text-lg font-semibold">Feedback</p>
           </li>
         </Link>
       </ul>

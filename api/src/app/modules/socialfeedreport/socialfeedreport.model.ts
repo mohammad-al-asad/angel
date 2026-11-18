@@ -8,7 +8,7 @@ const TSocialFeedReportSchema = new Schema<TSocialFeedReport>(
       type:  Schema.Types.ObjectId,
       ref: "users", 
       required: true,
-      indexe:true
+      index:true
     },
     event_postId: {
       type:  Schema.Types.ObjectId,
@@ -26,6 +26,16 @@ const TSocialFeedReportSchema = new Schema<TSocialFeedReport>(
       required: false,
       trim: true,
     },
+    // Review state set by admins in the dashboard
+    status: {
+      type: String,
+      enum: ["under_review", "resolved", "dismissed"],
+      default: "under_review",
+      index: true,
+    },
+    adminNote: { type: String, trim: true, maxlength: 500 },
+    reviewedAt: { type: Date },
+    reviewedBy: { type: Schema.Types.ObjectId, ref: "users" },
     isDelete: {
       type: Boolean,
       default: false,

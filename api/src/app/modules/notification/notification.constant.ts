@@ -5,6 +5,8 @@ export const NotificationType = {
   comment_reply: 'comment_reply', // someone replied to your comment -> open eventpostId, highlight commentId / replyId
   group_invitation: 'group_invitation', // invited to join a group -> open groupId
   payment: 'payment', // payment / checkout result
+  report_update: 'report_update', // admin reviewed a report you filed -> open 'My reports'
+  support_update: 'support_update', // admin resolved your feedback/support message
   general: 'general', // no specific destination
 } as const;
 

@@ -20,9 +20,19 @@ import { z } from "zod";
 });
 
 
+const updateSocialFeedReportStatusZodSchema = z.object({
+  body: z.object({
+    status: z.enum(["under_review", "resolved", "dismissed"], {
+      error: "Status must be under_review, resolved or dismissed",
+    }),
+    adminNote: z.string().trim().max(500, "Note can be at most 500 characters").optional(),
+  }),
+});
+
 const socialFeedReportValidation={
     createSocialFeedReportZodSchema,
-    updateSocialFeedReportZodSchema
+    updateSocialFeedReportZodSchema,
+    updateSocialFeedReportStatusZodSchema
 };
 
 export default socialFeedReportValidation;

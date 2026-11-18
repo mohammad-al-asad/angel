@@ -5,6 +5,9 @@ import supports from "./support.model";
 import { startOfDay, endOfDay } from "date-fns";
 import QueryBuilder from "../../builder/QueryBuilder";
 import { user_search_filed } from "./support.constant";
+import { Types } from "mongoose";
+import NotificationServices from "../notification/notification.services";
+import { NotificationType } from "../notification/notification.constant";
 
 
 const sendSupportMessageIntoDB = async (
@@ -66,8 +69,9 @@ const findByAllSupportAdminIntoDb = async (
 ) => {
   try {
     const allSupportQuery = new QueryBuilder(
+      // all messages; the dashboard filters with ?isSolve=true|false
       supports
-        .find({ isSolve: false})
+        .find({})
         .populate([
           {
             path: "userId",
@@ -139,14 +143,28 @@ const solveSupportIssuesIntoDb = async (
     }
 
 
-    const result = await supports.findByIdAndUpdate(
+    // returns the document as it was before the update
+    const before: any = await supports.findByIdAndUpdate(
       id,
-      { isSolve: payload.isSolve },
-      { new: true }
+      { isSolve: payload.isSolve }
     );
 
-    if (!result) {
+    if (!before) {
       throw new AppError(status.NOT_FOUND, "Support issue not found");
+    }
+
+    // Let the user know their message was handled
+    if (payload.isSolve && !before.isSolve && before.userId) {
+      try {
+        await NotificationServices.createAndSendNotification({
+          userId: new Types.ObjectId(String(before.userId)),
+          title: "Your feedback was reviewed",
+          content: `Thanks for contacting us about "${String(before.subject).slice(0, 80)}". Our team has reviewed it and marked it as resolved.`,
+          type: NotificationType.support_update,
+        });
+      } catch (notifyError: any) {
+        console.error("Support notification failed:", notifyError?.message || notifyError);
+      }
     }
 
     return {

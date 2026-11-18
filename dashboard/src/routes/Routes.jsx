@@ -15,6 +15,7 @@ import MediaSocial from "../pages/Media&Social/MediaSocial";
 import EventManagement from "../pages/eventManagement/eventManagement";
 // import GroupManagement from "../pages/groupManagement/groupManagement";
 import Reports from "../pages/Reports/Reports";
+import Feedback from "../pages/Feedback/Feedback";
 import AllEventChatroom from "../pages/Interactivity/Interactivity";
 import ProtectedRoute from "./ProtectedRoute";
 
@@ -87,6 +88,10 @@ const router = createBrowserRouter([
       {
         path: "/reports",
         element: <Reports />,
+      },
+      {
+        path: "/feedback",
+        element: <Feedback />,
       },
 
       //  navbar profile

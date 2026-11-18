@@ -16,6 +16,7 @@ import path from "path";
 import { loveemojimemoriesevents, uploadmemorieseventsnts } from "../upload_memories_event/upload_memories_event.model";
 import socialfeeds from "../social_feed/social_feed.model";
 import socialfeedreports from "../socialfeedreport/socialfeedreport.model";
+import supports from "../support/support.model";
 import reacteventposts, { commanteventposts, liveeventcomments, shareeventcomments } from "../react_event_post/react_event_post.model";
 import { reportlikes } from "../report/report.model";
 import replyeventposts from "../event_replies_comment/event_replies_comment.model";
@@ -427,15 +428,36 @@ const tagUserIntoDb = async (query: Record<string, unknown>, viewerId?: string) 
 const dashboardCountIntoDb=async()=>{
 
      try{
-          const totalHost=await users.countDocuments({role:USER_ROLE.host});
-          const totalThrillseekers=await users.countDocuments({role:USER_ROLE.thrillseekers});
-          const totalEvent=await events.countDocuments();
-          const totalBlockAccount=await events.countDocuments({role: USER_ROLE.thrillseekers})
+          // countDocuments skips the soft-delete hooks, so filter deleted records here
+          const notDeleted = { isDelete: { $ne: true } };
+          const appUsers = { ...notDeleted, role: { $in: [USER_ROLE.host, USER_ROLE.thrillseekers] } };
+          const nowIso = new Date().toISOString();
+          const [
+            totalHost,
+            totalThrillseekers,
+            totalEvent,
+            totalUpcomingEvent,
+            totalBlockAccount,
+            openFeedback,
+            reportsToReview,
+          ] = await Promise.all([
+            users.countDocuments({ ...notDeleted, role: USER_ROLE.host }),
+            users.countDocuments({ ...notDeleted, role: USER_ROLE.thrillseekers }),
+            events.countDocuments(notDeleted),
+            events.countDocuments({ ...notDeleted, ending_time: { $gte: nowIso } }),
+            // accounts an admin blocked (User Management -> Block)
+            users.countDocuments({ ...appUsers, status: USER_ACCESSIBILITY.blocked }),
+            supports.countDocuments({ ...notDeleted, isSolve: { $ne: true } }),
+            socialfeedreports.countDocuments({ ...notDeleted, status: { $nin: ["resolved", "dismissed"] } }),
+          ]);
           return {
-            totalHost, 
-             totalThrillseekers,
-             totalEvent, 
-             totalBlockAccount
+            totalHost,
+            totalThrillseekers,
+            totalEvent,
+            totalUpcomingEvent,
+            totalBlockAccount,
+            openFeedback,
+            reportsToReview,
           }
 
      }

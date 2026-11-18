@@ -12,5 +12,9 @@ const route=express.Router();
 route.post("/recorded_report", auth(USER_ROLE.host,USER_ROLE.thrillseekers),validationRequest(socialFeedReportValidation.createSocialFeedReportZodSchema), socialFeedReportController.recordedSocialFeedReport);
 route.get("/find_by_all_social_feed_report", auth(USER_ROLE.admin,USER_ROLE.superAdmin), socialFeedReportController.findByAllSocialFeedReport);
 route.delete("/delete_social_feed_report/:id", auth(USER_ROLE.admin,USER_ROLE.superAdmin),socialFeedReportController.deleteSocialFeedReport)
+// Admin: mark a report reviewed. Body { status: "under_review" | "resolved" | "dismissed", adminNote? }
+route.patch("/update_status/:id", auth(USER_ROLE.admin,USER_ROLE.superAdmin), validationRequest(socialFeedReportValidation.updateSocialFeedReportStatusZodSchema), socialFeedReportController.updateSocialFeedReportStatus);
+// App: the reports I filed, with their review status
+route.get("/my_reports", auth(USER_ROLE.host,USER_ROLE.thrillseekers), socialFeedReportController.findMySocialFeedReports);
 const SocialFeedReportRoute=route;
 export default SocialFeedReportRoute;
